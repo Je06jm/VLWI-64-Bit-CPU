@@ -4,34 +4,33 @@
 module FPUTest();
 
     reg clock, reset;
+    reg start;
     reg FPUInstruction instr;
     reg[63:0] data0, data1;
     wire[63:0] result;
     wire wait_sig;
+    wire finish_sig;
 
-    reg gen_flags;
     wire z, n, c, o;
-    wire error_div_by_zero;
 
     FPU fpu_module(
         clock, reset,
+        start,
         instr,
         data0, data1,
         result,
         wait_sig,
-        gen_flags,
-        z, n, c, o,
-        error_div_by_zero
+        finish_sig,
+        z, n, c, o
     );
 
     initial begin
         clock = 0;
         reset = 1;
+        start = 0;
         instr = FPU_NOP;
         data0 = 0;
         data1 = 0;
-
-        gen_flags = 0;
     end
 
     initial begin
@@ -43,60 +42,54 @@ module FPUTest();
         instr = FPU_ADD;
         data0 = 'h3ff3333333333333; // 1.2
         data1 = 'h400b333333333333; // 3.4
-        // 
+        start = 1;
+
         #2
+        start = 0;
+        // 
+        #64
 
         instr = FPU_SUB;
+        start = 1;
 
         #2
+        start = 0;
+
+        #128
 
         instr = FPU_MUL;
+        start = 1;
 
         #2
+        start = 0;
 
-        //instr = FPU_DIV;
-        instr = FPU_SQRT;
-        data0 = 'h4000000000000000; // 2.0
+        #64
 
-        #2
-
-        //instr = FPU_SQRT;
-        //data0 = 'h44000000;
-
-        #16
-
-        //instr = FPU_DIV;
-        //data1 = 0;
+        instr = FPU_DIV;
+        start = 1;
 
         #2
+        start = 0;
 
-        //instr = FPU_NOP;
-        //data0 = 0;
-        //gen_flags = 1;
+        #1024
 
-        #2
-
-        //data0 = 'hbf800000;
-
-        #2
-
-        //data0 = 'h7fc00000;
+        instr = FPU_INT_TO_FLOAT;
+        data0 = 12;
+        start = 1;
 
         #2
+        start = 0;
 
-        //data0 = 'h7f800000;
+        #256
 
-        #2
-
-        //data0 = 'h80000000;
-
-        #2
-
-        //data0 = 'hffc00000;
+        instr = FPU_FLOAT_TO_INT;
+        data0 = 'h4045000000000000;
+        start = 1;
 
         #2
+        start = 0;
 
-        //data0 = 'hff800000;
+        #256
 
         #2
         $finish();

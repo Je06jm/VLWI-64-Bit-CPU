@@ -8,10 +8,10 @@ typedef enum logic[3:0] {
     ALU_MUL,
     ALU_DIV,
     ALU_MOD,
-    ALU_RESERVED0,
-    ALU_RESERVED1,
-    ALU_ROL,
-    ALU_ROR,
+    ALU_CMP,
+    ALU_RESERVED,
+    ALU_SHL,
+    ALU_SHR,
     ALU_XOR,
     ALU_AND,
     ALU_OR,
@@ -28,8 +28,8 @@ typedef enum logic[3:0] {
     FPU_SUB,
     FPU_MUL,
     FPU_DIV,
-    FPU_SQRT,
-    FPU_CMP
+    FPU_CMP,
+    FPU_FLAGS
 } FPUInstruction;
 
 typedef enum logic[2:0] {
@@ -38,9 +38,9 @@ typedef enum logic[2:0] {
     DATA_ACCU_TO_REG,
     DATA_LOAD,
     DATA_STORE,
-    DATA_GATHER,
-    DATA_SCATTER,
-    DATA_SWAP
+    DATA_SWAP,
+    DATA_RESERVED0,
+    DATA_RESERVED1
 } DataInstruction;
 
 typedef enum logic[3:0] {
@@ -91,7 +91,7 @@ typedef struct packed {
     StackInstruction stack;
     Arg arg_alu;
     Arg arg_fpu;
-    Arg arg_bus;
+    Arg arg_data;
     Arg arg_control;
     Arg arg_stack;
     logic reserved;

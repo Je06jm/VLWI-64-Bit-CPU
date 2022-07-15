@@ -206,6 +206,73 @@ module CPU(
                         stage <= 4;
                     end
                 end
+                // Data and Control
+                4: begin
+                    if (instruction.data != DATA_NOP) begin
+                        case (instruction.data)
+                            DATA_REG_TO_ACCU: begin
+                                regs_sel0 <= instruction.arg_data;
+                                regs_read0 <= 1;
+                            end
+                            DATA_ACCU_TO_REG: begin
+                                regs_sel0 <= R0;
+                                regs_read0 <= 1;
+                            end
+                            DATA_LOAD: begin
+                                regs_sel0 <= R0;
+                                regs_read0 <= 1;
+                            end
+                            DATA_STORE: begin
+                                regs_sel0 <= R0;
+                                regs_read0 <= 1;
+                            end
+                            DATA_SWAP: begin
+                                regs_sel0 <= R0;
+                                regs_read0 <= 1;
+                            end
+                        endcase
+                    end
+                    if (instruction.control != CONTROL_NOP) begin
+                        case (instruction.control)
+                            CONTROL_FLAG_TO_REG0: begin
+                                regs_sel1 <= R0;
+                                regs_write1 <= 1;
+                                o_regs_data1 <= {54'b0, flags};
+                            end
+                            CONTROL_REG0_TO_FLAG: begin
+                                regs_sel1 <= R0;
+                                regs_read1 <= 1;
+                            end
+                            CONTROL_STACK_TO_REG0: begin
+                                regs_sel1 <= R0;
+                                regs_write1 <= 1;
+                                o_regs_data1 <= {32'b0, stack};
+                            end
+                            CONTROL_REG0_TO_STACK: begin
+                                regs_sel1 <= R0;
+                                regs_read1 <= 1;
+                            end
+                            CONTROL_IP_TO_REG0: begin
+                                regs_sel1 <= R0;
+                                regs_write1 <= 1;
+                                o_regs_data1 <= {32'b0, ip};
+                            end
+                            CONTROL_REG0_TO_IP: begin
+                                regs_sel1 <= R0;
+                                regs_read1 <= 1;
+                            end
+                            CONTROL_CPU_TO_REG1: begin
+                                regs_sel1 <= R0;
+                                regs_read1 <= 1;
+                            end
+                            CONTROL_REG1_TO_CPU: begin
+                                regs_sel1 <= R0;
+                                regs_read1 <= 1;
+                            end
+                        endcase
+                    end
+                    stage <= 5;
+                end
             endcase
         end
     end

@@ -22,7 +22,6 @@ This CPU is designed to be a small 64 bit microprocessor for embedded applicatio
   * Subtraction
   * Multiplication
   * Division
-  * Square root
   * Double to integer
   * Integer to double
   * Compare
@@ -185,15 +184,15 @@ then it uses registers. The additional register is selected using ALU arg.
 </tr>
 <tr>
     <th>0x7</th>
-    <th>Square root</th>
+    <th>Compare</th>
 </tr>
 <tr>
     <th>0x8</th>
-    <th>Compare</th>
+    <th>Generate flags</th>
 </th>
 <tr>
     <th>0x9</th>
-    <th>Generate flags</th>
+    <th>Reserved</th>
 </tr>
 <tr>
     <th>0xa</th>
@@ -251,15 +250,15 @@ then it uses registers. The additional register is selected using FPU arg.
 </tr>
 <tr>
     <th>0x5</th>
-    <th>Gather registers</th>
+    <th>Swap accumulator with register</th>
 </tr>
 <tr>
     <th>0x6</th>
-    <th>Scatter registers</th>
+    <th>Reserved</th>
 </tr>
 <tr>
     <th>0x7</th>
-    <th>Swap accumulator with register</th>
+    <th>Reserved</th>
 </tr>
 </table>
 
@@ -437,15 +436,11 @@ Page
     <th>3</th>
 </tr>
 <tr>
-    <th>FPU Divided by 0 Handler</th>
+    <th>Page is System Handler</th>
     <th>4</th>
 </tr>
 <tr>
-    <th>Page is System Handler</th>
-    <th>5</th>
-</tr>
-<tr>
     <th>Page is Not Present Handler</th>
-    <th>6</th>
+    <th>5</th>
 </tr>
 </table>
